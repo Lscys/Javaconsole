@@ -14,31 +14,28 @@ import java.sql.SQLException;
  *
  * @author Jeferson
  */
-public class registrarAlumno {
+public class actualizarAlumno {
     public static void main(String[] args) {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
         
-        try{
+        try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost/escuela?" + 
                     "user=root&password=admin");
             stmt = conn.createStatement();
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0001', 'Jefferson', 'Vicuña', 'Masculino', 18, 'ACTIVO')");
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0002', 'Jair', 'Alvarado', 'Masculino', 20, 'ACTIVO')");
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0003', 'Khennet', 'nvry', 'Masculino', 25, 'ACTIVO')");
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0004', 'Aoadha', 'Kiada', 'Femenino', 26, 'ACTIVO')");
+            stmt.executeUpdate("UPDATE Alumno SET Nombres='Giorge' WHERE idAlumno = 'A0003'");
             rs = stmt.executeQuery("SELECT idAlumno, Nombres, Apellido, Sexo, Edad, Estado FROM Alumno");
             
             while(rs.next()){
-                System.out.println(rs.getString("idAlumno")+ " " + rs.getString("Nombres")+" "+rs.getString("Apellido")+
+                System.out.println(rs.getString("idAlumno")+" "+rs.getString("Nombres")+" "+rs.getString("Apellido")+
                         " "+rs.getString("Sexo")+" "+rs.getString("Edad")+" "+rs.getString("Estado"));
             }
-        }catch (SQLException ex){
+        } catch(SQLException ex){
             System.out.println("SQLException: "+ex.getMessage());
             System.out.println("SQLStatus: "+ex.getSQLState());
             System.out.println("EventoError: "+ex.getErrorCode());
-        } finally{
+        }finally{
             
             if (rs != null) {
                 try {
@@ -66,7 +63,6 @@ public class registrarAlumno {
                 }
                 conn = null;
             }
-            
             
         }
     }

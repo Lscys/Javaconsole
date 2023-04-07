@@ -7,7 +7,7 @@ Nombres varchar(45) not null,
 Apellido varchar(45) not null,
 Sexo varchar(20) not null,
 Edad int not null,
-Estado varchar(30) not null
+Estado varchar(30) 
 );
 
 CREATE TABLE Cursos(
@@ -42,6 +42,7 @@ FOREIGN KEY (idProfesor) REFERENCES Profesor(idProfesor)
 
 drop table Alumno;
 drop table Cursos;
+drop table Notas;
 drop table Profesor;
 
 select * from Alumno;

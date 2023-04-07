@@ -14,20 +14,17 @@ import java.sql.SQLException;
  *
  * @author Jeferson
  */
-public class registrarAlumno {
+public class eliminarAlumno {
     public static void main(String[] args) {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
         
-        try{
+        try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost/escuela?" + 
                     "user=root&password=admin");
             stmt = conn.createStatement();
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0001', 'Jefferson', 'Vicuña', 'Masculino', 18, 'ACTIVO')");
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0002', 'Jair', 'Alvarado', 'Masculino', 20, 'ACTIVO')");
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0003', 'Khennet', 'nvry', 'Masculino', 25, 'ACTIVO')");
-            stmt.executeUpdate("INSERT INTO Alumno VALUES('A0004', 'Aoadha', 'Kiada', 'Femenino', 26, 'ACTIVO')");
+            stmt.executeUpdate("DELETE FROM Alumno WHERE idAlumno = 'A0004'");
             rs = stmt.executeQuery("SELECT idAlumno, Nombres, Apellido, Sexo, Edad, Estado FROM Alumno");
             
             while(rs.next()){
@@ -36,11 +33,11 @@ public class registrarAlumno {
             }
         }catch (SQLException ex){
             System.out.println("SQLException: "+ex.getMessage());
-            System.out.println("SQLStatus: "+ex.getSQLState());
+            System.out.println("SQLState: "+ex.getSQLState());
             System.out.println("EventoError: "+ex.getErrorCode());
-        } finally{
+        }finally{
             
-            if (rs != null) {
+             if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException sqlEx){
