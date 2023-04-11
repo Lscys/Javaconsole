@@ -4,6 +4,7 @@
  */
 import java.util.Scanner;
 import Alumno.GestorAlumnos;
+import Profesor.GestorProfesor;
 
 /**
  *
@@ -15,11 +16,15 @@ public class menuPrincipal {
     public static void main(String[] args) {
         
         GestorAlumnos gesA = new GestorAlumnos() {};
+        GestorProfesor gesP = new GestorProfesor() {};
         
         Scanner sc = new Scanner(System.in);
         String opcion;
         
         do {
+            System.out.println("TABLAS DE LA BASE DE DATOS");
+            System.out.println("SELECCIONE UNA OPCION");
+            System.out.println("---------------------------");
             System.out.println("1. Alumno");
             System.out.println("2. Profesor");
             System.out.println("3. Cursos");
@@ -33,11 +38,11 @@ public class menuPrincipal {
                 case "1":
                     System.out.println(" \n");
                     gesA.menuGestion();
-                break;
+                    break;
                 case "2":
                     // Agrega aquí el código que deseas ejecutar para la opción 2
-                    System.out.println("Ha seleccionado la opción Profesor");
-                    System.out.println("Escoga una");
+                    System.out.println("\n");
+                    gesP.menuGestion();
                     break;
                 case "3":
                     // Agrega aquí el código que deseas ejecutar para la opción 3
