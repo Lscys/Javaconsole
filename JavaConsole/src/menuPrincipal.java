@@ -19,8 +19,10 @@ public class menuPrincipal {
         GestorProfesor gesP = new GestorProfesor() {};
         
         Scanner sc = new Scanner(System.in);
+        
         String opcion;
         
+
         do {
             System.out.println("TABLAS DE LA BASE DE DATOS");
             System.out.println("SELECCIONE UNA OPCION");
@@ -31,7 +33,7 @@ public class menuPrincipal {
             System.out.println("4. Notas");
             System.out.println("5. Salir");
             
-            System.out.print("Seleccione una opción: ");
+            System.out.print("Seleccione una opcion: ");
             opcion = sc.nextLine();
             
             switch (opcion) {
@@ -41,25 +43,24 @@ public class menuPrincipal {
                     break;
                 case "2":
                     // Agrega aquí el código que deseas ejecutar para la opción 2
-                    System.out.println("\n");
+                    System.out.println(" \n");
                     gesP.menuGestion();
                     break;
                 case "3":
                     // Agrega aquí el código que deseas ejecutar para la opción 3
-                    System.out.println("Ha seleccionado la opción Cursos");
-                    System.out.println("Escoga una");
+                    
                     break;
                 case "4":
                     // Si se selecciona la opción "SALIR", se sale del bucle y se finaliza el menú
-                    System.out.println("Ha seleccionado la opción Notas");
+                    System.out.println("Ha seleccionado la opcion Notas");
                     System.out.println("Escoga una");
                     break;
                 case "5":
                     // Si se selecciona la opción "SALIR", se sale del bucle y se finaliza el menú
-                    System.out.println("Ha seleccionado SALIR. Saliendo del menú...");
+                    System.out.println("Ha seleccionado SALIR. Saliendo del menu...");
                     break;
                 default:
-                    System.out.println("Opción no válida. Por favor seleccione una opción del menú.");
+                    System.out.println("Opcion no valida. Por favor seleccione una opción del menu.");
                     break;
             }
             
