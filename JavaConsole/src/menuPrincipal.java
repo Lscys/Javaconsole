@@ -7,6 +7,9 @@
 import java.util.Scanner;
 import Alumno.GestorAlumnos;
 import Profesor.GestorProfesor;
+
+import Cursos.CursoVirtual;
+import Cursos.CursoPresencial;
 import Cursos.GestorCursos;
 
 /**
@@ -14,13 +17,20 @@ import Cursos.GestorCursos;
  * @author Jeferson
  */
 public class menuPrincipal {
-    static String tipo;
+    static String tipoC;
     
     public static void main(String[] args) {
         
         GestorAlumnos gesA = new GestorAlumnos() {};
         GestorProfesor gesP = new GestorProfesor() {};  
+        // gesC = new CursoPresencial();
         Scanner sc = new Scanner(System.in);
+        
+        String idCurso;
+        String Descripcion;
+        String tipo;
+        String plataforma;
+        String lugar;
         
         String opcion;
         do {
@@ -48,11 +58,20 @@ public class menuPrincipal {
                     break;
                 case "3":
                     // Agrega aquí el código que deseas ejecutar para la opción 3
+                    System.out.println("\n");
+                    System.out.print("Que tipo de Curso desea insertar? \n V. VIRTUAL \n P. PRESENCIAL: \n");
+                    tipoC = sc.next();
+                    if (tipoC.equals("P")) {
+                        CursoPresencial gesC = new CursoPresencial();
+                        gesC.menuGestion();
+                    }else if (tipoC.equals("V")) {
+                        CursoVirtual gesC = new CursoVirtual();
+                        gesC.menuGestion();
+                    }
                     break;
                 case "4":
                     // Si se selecciona la opción "SALIR", se sale del bucle y se finaliza el menú
                     System.out.println("Ha seleccionado la opcion Notas");
-                    System.out.println("Escoga una");
                     break;
                 case "5":
                     // Si se selecciona la opción "SALIR", se sale del bucle y se finaliza el menú
