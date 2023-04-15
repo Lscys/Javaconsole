@@ -6,6 +6,11 @@ package Profesor;
 
 import java.util.Scanner;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperExportManager;
+
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -23,6 +28,7 @@ interface GestorTablaProfesor{
     abstract void eliminarProfesor();
     abstract void actualizarProfesor();
     abstract void mostrarTablaProfesor();
+    abstract void verPDFProfesor();
     abstract void menuGestion();
 }
 
@@ -153,7 +159,6 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             rs = stmta.executeQuery("SELECT * FROM Profesor");
             
             while (rs.next()) {
-                System.out.println(" \n");
                 System.out.println("ID: " + rs.getString("idProfesor")+" "+rs.getString("Nombres")+" "+
                         rs.getString("Apellido")+" "+rs.getString("dni")+" "+rs.getString("Edad")+" "+rs.getString("Estado"));
             }
@@ -176,18 +181,42 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
     }
     
     @Override
+    public void verPDFProfesor(){
+        try{
+            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\Profesor.jasper", null, this.conn);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,"C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\Profesor.pdf");
+            System.out.println("\n Archivo Profesor creado correctamente");   
+            System.out.println(" \n");
+        }catch (JRException jre){
+            System.out.println(jre.getMessage());
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                }catch(SQLException sqlEx){
+                    System.out.println(sqlEx.getMessage());
+                }
+                conn = null;
+            }
+        }
+    }
+    
+    @Override
     public void menuGestion(){
-        System.out.println("Ha seleccionado la opción Profesor");
-        System.out.println("--------------------------------");
+        System.out.println("HA SELECCIONADO LA OPCION PROFESOR");
+        System.out.println("==================================");
         System.out.println("Escoga una opcion: ");
         System.out.println("I. Insertar");
         System.out.println("E. Eliminar");
         System.out.println("A. Actualizar");
         System.out.println("VT. Ver Tabla");
+        System.out.println("PDF. Profesor");
         System.out.println("O. VOLVER");
+        System.out.print("SELECCIONE UNA OPCION: ");
         tipo = sc.next();
         
         if (tipo.equals("I")) {
+            System.out.println(" \n");
             System.out.print("Ingrese id del Profesor: ");
             idProfesor = sc.next();
             System.out.print("Ingrese Nombre del Profesor: ");
@@ -202,10 +231,12 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             Estado = sc.next();
             insertarProfesor();
         }else if (tipo.equals("E")) {
+            System.out.println(" \n ");
             System.out.print("Ingrese id del Alumno: ");
             idProfesor = sc.next();
             eliminarProfesor();
         }else if (tipo.equals("A")) {
+            System.out.println(" \n");
             System.out.print("Ingrese id del Profesor: ");
             idProfesor = sc.next();
             System.out.print("Ingrese Nombre del Profesor: ");
@@ -220,7 +251,10 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             Estado = sc.next();
             actualizarProfesor();
         }else if (tipo.equals("VT")) {
+            System.out.print("\n ");
             mostrarTablaProfesor();
+        }else if (tipo.equals("PDF")) {
+            verPDFProfesor();
         }else if (tipo.equals("O")) {
             System.out.println("\n");
             return;

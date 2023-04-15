@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
+
 import java.util.Scanner;
 import Alumno.GestorAlumnos;
 import Profesor.GestorProfesor;
+import Cursos.GestorCursos;
 
 /**
  *
@@ -16,13 +19,10 @@ public class menuPrincipal {
     public static void main(String[] args) {
         
         GestorAlumnos gesA = new GestorAlumnos() {};
-        GestorProfesor gesP = new GestorProfesor() {};
-        
+        GestorProfesor gesP = new GestorProfesor() {};  
         Scanner sc = new Scanner(System.in);
         
         String opcion;
-        
-
         do {
             System.out.println("TABLAS DE LA BASE DE DATOS");
             System.out.println("SELECCIONE UNA OPCION");
@@ -48,7 +48,6 @@ public class menuPrincipal {
                     break;
                 case "3":
                     // Agrega aquí el código que deseas ejecutar para la opción 3
-                    
                     break;
                 case "4":
                     // Si se selecciona la opción "SALIR", se sale del bucle y se finaliza el menú

@@ -22,27 +22,32 @@ interface GestorTablaCursos {
     abstract String PRESENCIAL();
     abstract String VIRTUAL();
     abstract void menuGestion();
+    
+    abstract void insertarCurso();
+    abstract void eliminarCurso();
+    abstract void actualizarCurso();
+    abstract void verTablaCurso();
 }
 
 //Clase padre
-abstract sealed class GestorCursos implements GestorTablaCursos {
+public abstract class GestorCursos implements GestorTablaCursos{
+    //Variables para la conexion
     public Connection conn = null; 
     public PreparedStatement stmt = null;
     public Statement stmta = null;
     public ResultSet rs = null;
     public Scanner sc = new Scanner(System.in);
     
+    //Variables de la tabla Cursos
     public String idCurso;
     public String Descripcion;
     
+    //Variables para validar
     public String tipo;
     public String tipoC;
     public int horaI;
     
-    public GestorCursos(String idCurso, String Descripcion){
-        this.idCurso = idCurso;
-        this.Descripcion = Descripcion;
-
+    public GestorCursos(){
     // Establecer una conexion a bd MySQL
     try{
         conn = DriverManager.getConnection("jdbc:mysql://localhost/escuela?" + "user=root&password=admin");
@@ -76,23 +81,13 @@ abstract sealed class GestorCursos implements GestorTablaCursos {
         tipo = sc.next();
         
         if (tipo.equals("I")) {
-            System.out.print("Ingrese id del Curso: ");
-            idCurso = sc.next();
-            System.out.print("Ingrese descripcion del Curso: ");
-            idCurso = sc.next();
-            CursoPresencial gesC = new CursoPresencial(idCurso, Descripcion, horaI);
+            System.out.println("I");
         }else if (tipo.equals("E")) {
-            System.out.print("Ingrese id del Curso: ");
-            idCurso = sc.next();
-            
+            System.out.println("E");
         }else if (tipo.equals("A")) {
-            System.out.print("Ingrese id del Curso: ");
-            idCurso = sc.next();
-            System.out.print("Ingrese Descripcion del Curso: ");
-            Descripcion = sc.next();
-            
+            System.out.println("A");
         }else if (tipo.equals("VT")) {
-            
+            System.out.println("VY");
         }else if (tipo.equals("O")) {
             System.out.println("\n");
             return;
@@ -100,11 +95,6 @@ abstract sealed class GestorCursos implements GestorTablaCursos {
             System.out.println("ESCOGA UNA OPCION VALIDA");
         }
     }
-    
-    abstract void insertarCurso();
-    abstract void eliminarCurso();
-    abstract void actualizarCurso();
-    abstract void verTablaCurso();
     
     public String getIdCurso() {
         return idCurso;
@@ -125,12 +115,13 @@ abstract sealed class GestorCursos implements GestorTablaCursos {
 
 
 
-non-sealed class CursoPresencial extends GestorCursos{
-    private int horas;
+class CursoPresencial extends GestorCursos{
+    private String lugar;
     
-    public CursoPresencial(String idCurso, String Descripcion, int horas){
-       super(idCurso, Descripcion);     
-       this.horas = horas;
+    public CursoPresencial(String idCurso, String Descripcion, String lugar){
+       this.idCurso = idCurso;
+       this.Descripcion = Descripcion;
+       this.lugar = lugar;
     }
     
     @Override
@@ -190,7 +181,7 @@ non-sealed class CursoPresencial extends GestorCursos{
     public void actualizarCurso(){
         try {
             stmt = conn.prepareStatement("UPDATE Cursos SET Descripcon = ? WHERE idCurso = ?");
-            stmt.setString(6, idCurso);
+            stmt.setString(2, idCurso);
             stmt.setString(1, Descripcion);
             stmt.executeUpdate();
             System.out.println("El Curso con id "+ idCurso+" "+ this.PRESENCIAL()+" ha sido actualizado exitosamente.");
@@ -220,7 +211,7 @@ non-sealed class CursoPresencial extends GestorCursos{
             while (rs.next()) {
                 System.out.println(" \n");
                 System.out.println("ID: " + rs.getString("idCurso")+" "+rs.getString("Descripcion")+" "+
-                        rs.getString(this.horas)+" "+rs.getString(this.PRESENCIAL()));
+                        rs.getString(this.lugar)+" "+rs.getString(this.PRESENCIAL()));
             }
             System.out.println(" \n");
         } catch (SQLException ex) {
@@ -242,22 +233,23 @@ non-sealed class CursoPresencial extends GestorCursos{
     
     
 
-    public int getHoras() {
-        return horas;
+    public String getLugar() {
+        return lugar;
     }
 
-    public void setHoras(int horas) {
-        this.horas = horas;
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
     }
     
 }
 
 final class CursoVirtual extends GestorCursos{
-    private int duracion;
+    private String plataforma;
     
-    public CursoVirtual(String idCurso, String Descripcion, int duracion){
-        super(idCurso, Descripcion);
-        this.duracion = duracion;
+    public CursoVirtual(String idCurso, String Descripcion, String plataforma){
+        this.idCurso = idCurso;
+        this.Descripcion = Descripcion;
+        this.plataforma = plataforma;
     }
     
     @Override
@@ -317,7 +309,7 @@ final class CursoVirtual extends GestorCursos{
     public void actualizarCurso(){
         try {
             stmt = conn.prepareStatement("UPDATE Cursos SET Descripcon = ? WHERE idCurso = ?");
-            stmt.setString(6, idCurso);
+            stmt.setString(2, idCurso);
             stmt.setString(1, Descripcion);
             stmt.executeUpdate();
             System.out.println("El Curso con id "+ idCurso+" "+ this.VIRTUAL()+" ha sido actualizado exitosamente.");
@@ -347,7 +339,7 @@ final class CursoVirtual extends GestorCursos{
             while (rs.next()) {
                 System.out.println(" \n");
                 System.out.println("ID: " + rs.getString("idCurso")+" "+rs.getString("Descripcion")+" "+
-                        rs.getString(this.duracion)+" "+rs.getString(this.VIRTUAL()));
+                        rs.getString(this.plataforma)+" "+rs.getString(this.VIRTUAL()));
             }
             System.out.println(" \n");
         } catch (SQLException ex) {
@@ -368,12 +360,12 @@ final class CursoVirtual extends GestorCursos{
     }
     
 
-    public int getDuracion() {
-        return duracion;
+    public String getPlataforma() {
+        return plataforma;
     }
 
-    public void setDuracion(int duracion) {
-        this.duracion = duracion;
+    public void setPlataforma(String plataforma) {
+        this.plataforma = plataforma;
     }
     
     

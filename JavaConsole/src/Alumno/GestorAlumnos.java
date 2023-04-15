@@ -6,6 +6,11 @@ package Alumno;
 
 import java.util.Scanner;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperExportManager;
+
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,6 +29,7 @@ interface GestorTablaAlumno{
     abstract void actualizarAlumno();
     abstract void mostrarTablaAlumnos();
     abstract void eliminarAlumno();
+    abstract void verPDFAlumno();
     abstract void menuGestion();
 }
 
@@ -179,17 +185,39 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
         }
     }
     
+    @Override
+    public void verPDFAlumno(){
+        try{
+            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\ReporteAlumno.jasper", null, conn);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,"C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\ReporteAlumno.pdf");
+            System.out.println("\n Archivo Alumno creado correctamente");   
+            System.out.println(" \n");
+        }catch (JRException jre){
+            System.out.println(jre.getMessage());
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                }catch(SQLException sqlEx){
+                    System.out.println(sqlEx.getMessage());
+                }
+                conn = null;
+            }
+        }
+    }
+    
     
     @Override
     public void menuGestion(){
-        System.out.println("Ha seleccionado la opción Alumno");
-        System.out.println("--------------------------------");
-        System.out.println("Escoga una: ");
+        System.out.println("HA SELECCIONADO LA OPCION ALUMNO");
+        System.out.println("================================");
         System.out.println("I. Insertar");
         System.out.println("E. Eliminar");
         System.out.println("A. Actualizar");
         System.out.println("VT. Ver Tabla");
+        System.out.println("PDF. Alumno");
         System.out.println("O. VOLVER");
+        System.out.print("SELECIONE UNA OPCION: ");
         tipo = sc.next();
         
         if (tipo.equals("I")) {
@@ -226,6 +254,8 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
             actualizarAlumno();
         }else if (tipo.equals("VT")) {
             mostrarTablaAlumnos();
+        }else if (tipo.equals("PDF")) {
+            verPDFAlumno();
         }else if (tipo.equals("O")) {
             System.out.println("\n");
             return;
