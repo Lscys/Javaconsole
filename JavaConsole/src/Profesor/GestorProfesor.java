@@ -68,6 +68,7 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
     
     @Override
     public void insertarProfesor(){
+        System.out.println();
         try {
             stmt = conn.prepareStatement("INSERT INTO Profesor (idProfesor, Nombres, Apellido, dni, Edad, Estado) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, idProfesor);
@@ -216,7 +217,7 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
         tipo = sc.next();
         
         if (tipo.equals("I")) {
-            System.out.println(" \n");
+            System.out.println();
             System.out.print("Ingrese id del Profesor: ");
             idProfesor = sc.next();
             System.out.print("Ingrese Nombre del Profesor: ");
@@ -231,12 +232,12 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             Estado = sc.next();
             insertarProfesor();
         }else if (tipo.equals("E")) {
-            System.out.println(" \n ");
+            System.out.println();
             System.out.print("Ingrese id del Alumno: ");
             idProfesor = sc.next();
             eliminarProfesor();
         }else if (tipo.equals("A")) {
-            System.out.println(" \n");
+            System.out.println();
             System.out.print("Ingrese id del Profesor: ");
             idProfesor = sc.next();
             System.out.print("Ingrese Nombre del Profesor: ");
@@ -251,14 +252,16 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             Estado = sc.next();
             actualizarProfesor();
         }else if (tipo.equals("VT")) {
-            System.out.print("\n ");
+            System.out.println();
             mostrarTablaProfesor();
         }else if (tipo.equals("PDF")) {
+            System.out.println();
             verPDFProfesor();
         }else if (tipo.equals("O")) {
-            System.out.println("\n");
+            System.out.println();
             return;
         }else{
+            System.out.println();
             System.out.println("ESCOGA UNA OPCION VALIDA");
         }
     }

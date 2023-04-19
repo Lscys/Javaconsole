@@ -7,10 +7,12 @@
 import java.util.Scanner;
 import Alumno.GestorAlumnos;
 import Profesor.GestorProfesor;
+import Notas.GestorNotas;
+import Promedios.GestorPromedios;
 
 import Cursos.CursoVirtual;
 import Cursos.CursoPresencial;
-import Cursos.GestorCursos;
+
 
 /**
  *
@@ -23,7 +25,9 @@ public class menuPrincipal {
         
         GestorAlumnos gesA = new GestorAlumnos() {};
         GestorProfesor gesP = new GestorProfesor() {};  
-        // gesC = new CursoPresencial();
+        GestorNotas gesN = new GestorNotas() {}; 
+        GestorPromedios gesPro = new GestorPromedios() {};
+        
         Scanner sc = new Scanner(System.in);
         
         String idCurso;
@@ -41,48 +45,57 @@ public class menuPrincipal {
             System.out.println("2. Profesor");
             System.out.println("3. Cursos");
             System.out.println("4. Notas");
-            System.out.println("5. Salir");
+            System.out.println("5. Promedios");
+            System.out.println("6. Salir");
             
             System.out.print("Seleccione una opcion: ");
             opcion = sc.nextLine();
             
             switch (opcion) {
                 case "1":
-                    System.out.println(" \n");
+                    System.out.println();
                     gesA.menuGestion();
                     break;
                 case "2":
-                    // Agrega aquí el código que deseas ejecutar para la opción 2
-                    System.out.println(" \n");
+                    System.out.println();
                     gesP.menuGestion();
                     break;
                 case "3":
-                    // Agrega aquí el código que deseas ejecutar para la opción 3
-                    System.out.println("\n");
-                    System.out.print("Que tipo de Curso desea insertar? \n V. VIRTUAL \n P. PRESENCIAL: \n");
-                    tipoC = sc.next();
-                    if (tipoC.equals("P")) {
+                    System.out.println();
+                    System.out.println("¿Qué tipo de curso desea insertar?");
+                    System.out.println("V. Virtual");
+                    System.out.println("P. Presencial");
+                    tipoC = sc.nextLine();
+
+                    if (tipoC.equalsIgnoreCase("P")) {
                         CursoPresencial gesC = new CursoPresencial();
                         gesC.menuGestion();
-                    }else if (tipoC.equals("V")) {
+                    } else if (tipoC.equalsIgnoreCase("V")) {
                         CursoVirtual gesC = new CursoVirtual();
                         gesC.menuGestion();
+                    } else {
+                        System.out.println("Opcion no valida. Por favor seleccione una opción del menu.");
                     }
                     break;
                 case "4":
-                    // Si se selecciona la opción "SALIR", se sale del bucle y se finaliza el menú
-                    System.out.println("Ha seleccionado la opcion Notas");
+                    System.out.println();
+                    gesN.menuGestion();
                     break;
                 case "5":
-                    // Si se selecciona la opción "SALIR", se sale del bucle y se finaliza el menú
+                    System.out.println();
+                    gesPro.menuGestion();
+                    break;
+                case "6":
+                    System.out.println();
                     System.out.println("Ha seleccionado SALIR. Saliendo del menu...");
                     break;
                 default:
+                    System.out.println();
                     System.out.println("Opcion no valida. Por favor seleccione una opción del menu.");
                     break;
             }
             
-        } while (!opcion.equals("5"));
+        } while (!opcion.equals("6"));
         
         sc.close();
     }

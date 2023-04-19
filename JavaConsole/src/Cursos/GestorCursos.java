@@ -107,8 +107,18 @@ public abstract class GestorCursos implements GestorTablaCursos{
             tipoC = sc.next();
             insertarCurso();
         }else if (tipo.equals("E")) {
+            System.out.println("\n");
+            System.out.print("Ingrese idCurso: ");
+            idCurso = sc.next();
             eliminarCurso(); 
         }else if (tipo.equals("A")) {
+            System.out.println("\n");
+            System.out.print("Ingrese idCurso: ");
+            idCurso = sc.next();
+            System.out.print("Ingrese Descripcion del Curso: ");
+            Descripcion = sc.next();
+            System.out.print("Ingrese Hora o Plataforma: ");
+            tipoC = sc.next();
             actualizarCurso();
         }else if (tipo.equals("VT")) {
             verTablaCurso();
