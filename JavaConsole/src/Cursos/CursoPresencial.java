@@ -10,7 +10,7 @@ import java.sql.SQLException;
  *
  * @author Jeferson
  */
-public class CursoPresencial extends GestorCursos {
+public final class CursoPresencial extends GestorCursos {
     private String lugar;
     
     public CursoPresencial(){
@@ -57,10 +57,10 @@ public class CursoPresencial extends GestorCursos {
             int filasEliminadas = stmt.executeUpdate();
             if (filasEliminadas == 1) {
                 System.out.println("El Curso con id "+ idCurso+" "+ this.PRESENCIAL()+" ha sido eliminado exitosamente");
-                System.out.println("\n");
+                System.out.println();
             }else{
                 System.out.println("No se ha encontrado ningun curso con id "+ idCurso+" "+ this.PRESENCIAL()+" para eliminar");
-                System.out.println(" \n");
+                System.out.println();
             }
         }catch(SQLException ex){
             System.out.println("SQLException: "+ex.getMessage());
@@ -110,7 +110,7 @@ public class CursoPresencial extends GestorCursos {
             while (rs.next()) {
                 System.out.println("ID: " + rs.getString("idCurso")+" "+rs.getString("Descripcon"));
             }
-            System.out.println(" \n");
+            System.out.println();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLStatus: " + ex.getSQLState());

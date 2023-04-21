@@ -29,7 +29,7 @@ interface GestorTablaNotas{
     abstract void actualizarNotas();
     abstract void mostrarTablaNotas();
     abstract void eliminarNotas();
-    //abstract void verPDFNotas();
+    abstract void verPDFNotas();
     abstract void menuGestion();
 }
 
@@ -194,7 +194,7 @@ public abstract class GestorNotas implements GestorTablaNotas{
         }
     }
     
-    /*
+    
     @Override
     public void verPDFNotas(){
         try{
@@ -215,7 +215,7 @@ public abstract class GestorNotas implements GestorTablaNotas{
             }
         }
     }
-    */
+    
     
     @Override
     public void menuGestion(){

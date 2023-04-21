@@ -11,6 +11,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperExportManager;
 
+
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -44,19 +45,22 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
     private Scanner sc = new Scanner(System.in);
     
     
-    //Variables de la tabla Alumno
+    //Variables de la tabla Profesor
     private String idProfesor;
     private String Nombres;
     private String Apellido;
     private String Dni;
     private String Edad;
     private String Estado;
+    
     private String tipo;
     
     /*------------------------------------*/
     
     
+    //Constructor
     public GestorProfesor(){
+        
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost/escuela?" + "user=root&password=admin");
         } catch (SQLException ex) {
@@ -78,10 +82,11 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             stmt.setString(5, Edad);
             stmt.setString(6, Estado);
             stmt.executeUpdate();
-            System.out.println(" \n");
+            System.out.println();
             System.out.println("El Profesor " + idProfesor + " ha sido agregado exitosamente. \n");
-            System.out.println(" \n");
+            System.out.println();
         } catch (SQLException ex) {
+            System.out.println();
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLStatus: " + ex.getSQLState());
             System.out.println("EventoError: " + ex.getErrorCode());
@@ -114,13 +119,15 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             System.out.println("SQLException: "+ex.getMessage());
             System.out.println("SQLState: "+ex.getSQLState());
             System.out.println("EventoError: "+ex.getErrorCode());
-        }if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException sqlEx) {
-                System.out.println(sqlEx.getMessage());
+        }finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException sqlEx) {
+                    System.out.println(sqlEx.getMessage());
+                }
+                stmt = null;
             }
-            stmt = null;
         }
     }
     
@@ -136,7 +143,7 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             stmt.setString(5, Estado);
             stmt.executeUpdate();
             System.out.println("El Profesor con id " + idProfesor + " ha sido actualizado exitosamente.");
-            System.out.println(" \n");
+            System.out.println();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLStatus: " + ex.getSQLState());
@@ -163,7 +170,7 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
                 System.out.println("ID: " + rs.getString("idProfesor")+" "+rs.getString("Nombres")+" "+
                         rs.getString("Apellido")+" "+rs.getString("dni")+" "+rs.getString("Edad")+" "+rs.getString("Estado"));
             }
-            System.out.println(" \n");
+            System.out.println();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLStatus: " + ex.getSQLState());
@@ -187,7 +194,7 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\Profesor.jasper", null, this.conn);
             JasperExportManager.exportReportToPdfFile(jasperPrint,"C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\Profesor.pdf");
             System.out.println("\n Archivo Profesor creado correctamente");   
-            System.out.println(" \n");
+            System.out.println();
         }catch (JRException jre){
             System.out.println(jre.getMessage());
         }finally{
@@ -233,7 +240,7 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
             insertarProfesor();
         }else if (tipo.equals("E")) {
             System.out.println();
-            System.out.print("Ingrese id del Alumno: ");
+            System.out.print("Ingrese id del Profesor: ");
             idProfesor = sc.next();
             eliminarProfesor();
         }else if (tipo.equals("A")) {
@@ -257,9 +264,9 @@ public abstract class GestorProfesor implements GestorTablaProfesor {
         }else if (tipo.equals("PDF")) {
             System.out.println();
             verPDFProfesor();
-        }else if (tipo.equals("O")) {
+      }else if (tipo.equals("O")) {
             System.out.println();
-            return;
+            return;  
         }else{
             System.out.println();
             System.out.println("ESCOGA UNA OPCION VALIDA");

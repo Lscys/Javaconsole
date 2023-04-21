@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -34,7 +36,7 @@ interface GestorTablaCursos {
 }
 
 //Clase padre
-public abstract class GestorCursos implements GestorTablaCursos{
+abstract class GestorCursos implements GestorTablaCursos{
     //Variables para la conexion
     public Connection conn = null; 
     public PreparedStatement stmt = null;
@@ -61,8 +63,7 @@ public abstract class GestorCursos implements GestorTablaCursos{
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLStatus: " + ex.getSQLState());
             System.out.println("EventoError: " + ex.getErrorCode());
-        }
-        
+        }   
     }
     
     public GestorCursos(String idCurso, String Descripcion){
@@ -103,7 +104,7 @@ public abstract class GestorCursos implements GestorTablaCursos{
         tipo = sc.next();
         
         if (tipo.equalsIgnoreCase("I")) {
-            System.out.println("\n");
+            System.out.println();
             System.out.print("Ingrese idCurso: ");
             idCurso = sc.next();
             System.out.print("Ingrese Descripcion del Curso: ");
@@ -112,7 +113,7 @@ public abstract class GestorCursos implements GestorTablaCursos{
             tipoC = sc.next();
             insertarCurso();
         }else if (tipo.equalsIgnoreCase("E")) {
-            System.out.println("\n");
+            System.out.println();
             System.out.print("Ingrese idCurso: ");
             idCurso = sc.next();
             eliminarCurso(); 
@@ -126,14 +127,15 @@ public abstract class GestorCursos implements GestorTablaCursos{
             tipoC = sc.next();
             actualizarCurso();
         }else if (tipo.equalsIgnoreCase("VT")) {
+            System.out.println();
             verTablaCurso();
-            return;
         }else if (tipo.equalsIgnoreCase("PDF")) {
+            System.out.println();
             verPDFCursos();
-            return;
         }
         else if (tipo.equalsIgnoreCase("O")) {
             System.out.println();
+            return;
         }else{
             System.out.println("ESCOGA UNA OPCION VALIDA");
         }

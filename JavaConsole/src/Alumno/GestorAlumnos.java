@@ -51,6 +51,8 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
     private String sexo;
     private String Edad;
     private String Estado;
+    
+    
     private String tipo;
     
     /*------------------------------------*/
@@ -65,8 +67,7 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
             System.out.println("SQLStatus: " + ex.getSQLState());
             System.out.println("EventoError: " + ex.getErrorCode());
         }
-        
-        
+ 
     }
     
     
@@ -79,7 +80,7 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
             stmt.setString(3, Apellido);
             stmt.setString(4, sexo);
             stmt.setString(5, Edad);
-            stmt.setString(6, Estado);
+            stmt.setString(6, Estado);        
             stmt.executeUpdate();
             System.out.println("El alumno " + idAlumno + " ha sido agregado exitosamente. \n");
             System.out.println();
