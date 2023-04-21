@@ -82,7 +82,7 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
             stmt.setString(6, Estado);
             stmt.executeUpdate();
             System.out.println("El alumno " + idAlumno + " ha sido agregado exitosamente. \n");
-            System.out.println(" \n");
+            System.out.println();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLStatus: " + ex.getSQLState());
@@ -132,6 +132,7 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
     
     @Override
     public void mostrarTablaAlumnos() {
+        System.out.println();
         try {
             stmta = conn.createStatement();
             rs = stmta.executeQuery("SELECT * FROM Alumno");
@@ -140,7 +141,7 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
                 System.out.println("ID: " + rs.getString("idAlumno")+" "+rs.getString("Nombres")+" "+
                         rs.getString("Apellido")+" "+rs.getString("Sexo")+" "+rs.getString("Edad")+" "+rs.getString("Estado"));
             }
-            System.out.println(" \n");
+            System.out.println();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLStatus: " + ex.getSQLState());
@@ -220,7 +221,7 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
         System.out.print("SELECIONE UNA OPCION: ");
         tipo = sc.next();
         
-        if (tipo.equals("I")) {
+        if (tipo.equalsIgnoreCase("I")) {
             System.out.print("Ingrese id del Alumno: ");
             idAlumno = sc.next();
             System.out.print("Ingrese Nombre del Alumno: ");
@@ -234,11 +235,11 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
             System.out.print("Ingrese Estado del Alumno: ");
             Estado = sc.next();
             insertarAlumno();
-        }else if (tipo.equals("E")) {
+        }else if (tipo.equalsIgnoreCase("E")) {
             System.out.print("Ingrese id del Alumno: ");
             idAlumno = sc.next();
             eliminarAlumno();
-        }else if (tipo.equals("A")) {
+        }else if (tipo.equalsIgnoreCase("A")) {
             System.out.print("Ingrese id del Alumno: ");
             idAlumno = sc.next();
             System.out.print("Ingrese Nombre del Alumno: ");
@@ -252,12 +253,12 @@ public abstract class GestorAlumnos implements GestorTablaAlumno{
             System.out.print("Ingrese Estado del Alumno: ");
             Estado = sc.next();
             actualizarAlumno();
-        }else if (tipo.equals("VT")) {
+        }else if (tipo.equalsIgnoreCase("VT")) {
             mostrarTablaAlumnos();
-        }else if (tipo.equals("PDF")) {
+        }else if (tipo.equalsIgnoreCase("PDF")) {
             verPDFAlumno();
-        }else if (tipo.equals("O")) {
-            System.out.println("\n");
+        }else if (tipo.equalsIgnoreCase("O")) {
+            System.out.println();
             return;
         }else{
             System.out.println("ESCOGA UNA OPCION VALIDA");

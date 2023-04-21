@@ -12,6 +12,10 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  *
@@ -86,7 +90,7 @@ public abstract class GestorCursos implements GestorTablaCursos{
     
     @Override
     public void menuGestion(){
-        System.out.println(" \n");
+        System.out.println();
         System.out.println("HA SELECCIONADO LA OPCION CURSOS");
         System.out.println("================================");
         System.out.println("Escoga una opcion: ");
@@ -94,10 +98,11 @@ public abstract class GestorCursos implements GestorTablaCursos{
         System.out.println("E. Eliminar");
         System.out.println("A. Actualizar");
         System.out.println("VT. Ver Tabla");
+        System.out.println("PDF. CURSO");
         System.out.println("O. VOLVER");
         tipo = sc.next();
         
-        if (tipo.equals("I")) {
+        if (tipo.equalsIgnoreCase("I")) {
             System.out.println("\n");
             System.out.print("Ingrese idCurso: ");
             idCurso = sc.next();
@@ -106,12 +111,12 @@ public abstract class GestorCursos implements GestorTablaCursos{
             System.out.print("Ingrese Hora o Plataforma: ");
             tipoC = sc.next();
             insertarCurso();
-        }else if (tipo.equals("E")) {
+        }else if (tipo.equalsIgnoreCase("E")) {
             System.out.println("\n");
             System.out.print("Ingrese idCurso: ");
             idCurso = sc.next();
             eliminarCurso(); 
-        }else if (tipo.equals("A")) {
+        }else if (tipo.equalsIgnoreCase("A")) {
             System.out.println("\n");
             System.out.print("Ingrese idCurso: ");
             idCurso = sc.next();
@@ -120,15 +125,41 @@ public abstract class GestorCursos implements GestorTablaCursos{
             System.out.print("Ingrese Hora o Plataforma: ");
             tipoC = sc.next();
             actualizarCurso();
-        }else if (tipo.equals("VT")) {
+        }else if (tipo.equalsIgnoreCase("VT")) {
             verTablaCurso();
             return;
-        }else if (tipo.equals("O")) {
-            System.out.println("\n");
+        }else if (tipo.equalsIgnoreCase("PDF")) {
+            verPDFCursos();
+            return;
+        }
+        else if (tipo.equalsIgnoreCase("O")) {
+            System.out.println();
         }else{
             System.out.println("ESCOGA UNA OPCION VALIDA");
         }
     }
+    
+    public void verPDFCursos(){
+        try{
+            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\ReporteCursos.jasper", null, conn);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,"C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\ReporteCursos.pdf");
+            System.out.println("\nArchivo Alumno creado correctamente");   
+            System.out.println();
+        }catch (JRException jre){
+            System.out.println(jre.getMessage());
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                }catch(SQLException sqlEx){
+                    System.out.println(sqlEx.getMessage());
+                }
+                conn = null;
+            }
+        }
+    }
+    
+    
     
     public String getIdCurso() {
         return idCurso;

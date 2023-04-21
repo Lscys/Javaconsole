@@ -13,6 +13,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
 /**
  *
  * @author Jeferson
@@ -21,7 +27,7 @@ import java.util.Scanner;
 interface GestorTablaPromedios{
     abstract void calcularPromedioAlumnoCursoProfesor();
     abstract void mostrarTablaNotas();
-    //abstract void verPDFNotas();
+    abstract void verPDFPromedios();
     abstract void menuGestion();
 }
 
@@ -76,15 +82,15 @@ public abstract class GestorPromedios implements GestorTablaPromedios {
             stmt = conn.prepareStatement("SELECT * FROM Promedios");
             rs = stmt.executeQuery();
 
-            System.out.println("IDALUMNO\tIDPROFESOR\tIDCURSO\tPROMEDIO\tAPROBADO");
+            System.out.println("IDALUMNO\tIDCURSO\tIDPROMEDIO\tPROMEDIO\tAPROBADO");
             while (rs.next()) {
                 idAlumno = rs.getString("IDALUMNO");
-                idProfesor = rs.getString("IDPROFESOR");
                 idCurso = rs.getString("IDCURSO");
+                idProfesor = rs.getString("IDPROFESOR");
                 float promedio = rs.getFloat("PROMEDIO");
                 String aprobado = rs.getString("APROBADO");
 
-                System.out.println(idAlumno + "\t\t" + idProfesor + "\t\t" + idCurso + "\t" + promedio + "\t\t" + aprobado);
+                System.out.println(idAlumno + "\t\t" + idCurso + "\t\t" + idProfesor + "\t" + promedio + "\t\t" + aprobado);
             }
         } catch (SQLException ex) {
             System.out.println();
@@ -107,29 +113,50 @@ public abstract class GestorPromedios implements GestorTablaPromedios {
     }
     
     @Override
+    public void verPDFPromedios(){
+        try{
+            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\ReportePromedios.jasper", null, this.conn);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,"C:\\Users\\Jeferson\\JaspersoftWorkspace\\MyReports\\ReportePromedios.pdf");
+            System.out.println("\n Archivo Promedios creado correctamente");   
+            System.out.println();
+        }catch (JRException jre){
+            System.out.println(jre.getMessage());
+        }finally{
+            if (conn!=null) {
+                try {
+                    conn.close();
+                }catch(SQLException sqlEx){
+                    System.out.println(sqlEx.getMessage());
+                }
+                conn = null;
+            }
+        }
+    };
+    
+    @Override
     public void menuGestion(){
         System.out.println("HA SELECCIONADO LA OPCION PROMEDIOS");
         System.out.println("================================");
         System.out.println("P.   PROMEDIAR");
-        System.out.println("VT.  Ver Tabla");
-        System.out.println("PDF. Alumno");
+        System.out.println("VT.  VER TABLA");
+        System.out.println("PDF. PROMEDIOS");
         System.out.println("O.   VOLVER");
         System.out.print("SELECIONE UNA OPCION: ");
         tipo = sc.next();
         
-        if (tipo.equals("I")) {
+        if (tipo.equals("P")) {
             System.out.println();
             System.out.print("Ingrese id del Alumno: ");
             idAlumno = sc.next();
-            System.out.print("Ingrese id del Curso:  ");
-            idCurso = sc.next();
-            System.out.print("Ingrese id del Profesor: ");
+            System.out.print("Ingrese id del Profesor:  ");
             idProfesor = sc.next();
+            System.out.print("Ingrese id del Curso: ");
+            idCurso = sc.next();
             calcularPromedioAlumnoCursoProfesor();
         }else if (tipo.equals("VT")) {
             mostrarTablaNotas();
         }else if (tipo.equals("PDF")) {
-            /*verPDFNotas();*/
+            verPDFPromedios();
         }else if (tipo.equals("O")) {
             System.out.println();
             return;

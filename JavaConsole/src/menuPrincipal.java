@@ -19,7 +19,7 @@ import Cursos.CursoPresencial;
  * @author Jeferson
  */
 public class menuPrincipal {
-    static String tipoC;
+    private static String tipoC;
     
     public static void main(String[] args) {
         
@@ -30,11 +30,6 @@ public class menuPrincipal {
         
         Scanner sc = new Scanner(System.in);
         
-        String idCurso;
-        String Descripcion;
-        String tipo;
-        String plataforma;
-        String lugar;
         
         String opcion;
         do {
@@ -74,7 +69,9 @@ public class menuPrincipal {
                         CursoVirtual gesC = new CursoVirtual();
                         gesC.menuGestion();
                     } else {
+                        System.out.println();
                         System.out.println("Opcion no valida. Por favor seleccione una opción del menu.");
+                        System.out.println();
                     }
                     break;
                 case "4":
